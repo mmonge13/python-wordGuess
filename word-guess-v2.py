@@ -1,0 +1,138 @@
+import random
+
+# Diccionarios de traducción para español e inglés
+translations = {
+    'en': {
+        'welcome': "What is your name? ",
+        'good_luck': "Good Luck!",
+        'choose_source': "Do you want to use pre-stored words or enter your own words? (pre-stored/enter): ",
+        'custom_word_prompt': "Enter custom word {num} (or press Enter to finish): ",
+        'invalid_word': "Please enter a valid word.",
+        'no_custom_words': "You didn't enter any custom words.",
+        'guess_prompt': "Guess a character: ",
+        'win_message': "You Win",
+        'lose_message': "You Lose",
+        'final_score': "Final score:",
+        'more_guesses': "You have {num} more guesses",
+        'correct_word': "The word is:",
+        'current_score': "Your score:",
+    },
+    'es': {
+        'welcome': "¿Cuál es tu nombre? ",
+        'good_luck': "¡Buena suerte!",
+        'choose_source': "¿Deseas usar palabras predefinidas o ingresar tus propias palabras? (predefinidas/ingresar): ",
+        'custom_word_prompt': "Ingresa la palabra personalizada {num} (o presiona Enter para terminar): ",
+        'invalid_word': "Por favor, ingresa una palabra válida.",
+        'no_custom_words': "No ingresaste ninguna palabra personalizada.",
+        'guess_prompt': "Adivina una letra: ",
+        'win_message': "Ganaste",
+        'lose_message': "Perdiste",
+        'final_score': "Puntuación final:",
+        'more_guesses': "Tienes {num} intentos más",
+        'correct_word': "La palabra es:",
+        'current_score': "Tu puntuación:",
+    }
+}
+
+
+def choose_language():
+    while True:
+        lang_choice = input(
+            "Choose a language (English(en)/Español(es)): ").strip().lower()
+        if lang_choice in translations:
+            return lang_choice
+        else:
+            print("Invalid choice. Please choose English or Español.")
+
+
+def choose_word_source(language):
+    while True:
+        print("Choose a word source:")
+        print("1. Pre-stored")
+        print("2. Enter your own")
+        choice = input(f"Enter 1 or 2: ")
+        if choice == "1":
+            return random.choice(pre_stored_words)
+        elif choice == "2":
+            custom_words = []
+            for i in range(12):
+                custom_word = input(
+                    translations[language]['custom_word_prompt'].format(num=i + 1)).lower()
+                if custom_word == "":
+                    break
+                elif custom_word.isalpha():
+                    custom_words.append(custom_word)
+                else:
+                    print(translations[language]['invalid_word'])
+            if custom_words:
+                return random.choice(custom_words)
+            else:
+                print(translations[language]['no_custom_words'])
+        else:
+            print("Invalid choice. Please enter 1 or 2.")
+
+
+def save_score(username, score, attempts):
+    with open('score.txt', 'a') as file:
+        file.write(
+            f'Username: {username}, Score: {score}, Attempts: {attempts}\n')
+
+
+# Inicialización del juego
+language = choose_language()
+name = input(translations[language]['welcome'])
+print(translations[language]['good_luck'], name)
+
+pre_stored_words = ['rainbow', 'computer', 'science', 'programming',
+                    'python', 'mathematics', 'player', 'condition',
+                    'reverse', 'water', 'board', 'geeks']
+
+word = choose_word_source(language)
+
+print(translations[language]['guess_prompt'])
+
+guesses = ''
+turns = 12
+score = 0
+
+while turns > 0:
+    failed = 0
+    for char in word:
+        if char in guesses:
+            print(char, end=" ")
+        else:
+            print("_")
+
+            failed += 1
+
+    if failed == 0:
+        print(translations[language]['win_message'])
+        print(translations[language]['correct_word'], word)
+        score += 1
+        print(translations[language]['current_score'], score)
+        break
+
+    print()
+
+    while True:
+        guess = input(translations[language]['guess_prompt']).lower()
+
+        if len(guess) == 1 and guess.isalpha():
+            break
+        else:
+            print("Please enter a single letter.")
+
+    guesses += guess
+
+    if guess not in word:
+        turns -= 1
+        print("Wrong")
+        print(translations[language]['more_guesses'].format(num=turns))
+
+        if turns == 0:
+            print(translations[language]['lose_message'])
+
+        # Llamar a save_score aquí
+        save_score(name, score, 12 - turns)
+
+print(translations[language]['final_score'], score)
