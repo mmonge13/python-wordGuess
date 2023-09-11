@@ -1,80 +1,92 @@
-# library that we use in order to choose
-# on random words from a list of words
+"""
+La biblioteca random se utiliza para generar números aleatorios.
+"""
 import random
 
-name = input("What is your name? ")
+def get_player_name():
+    """
+    Solicita al usuario que ingrese su nombre y lo devuelve.
+    """
+    return input("What is your name? ")
 
-# Here the user is asked to enter the name first
-
-print("Good Luck ! ", name)
-
-words = ['rainbow', 'computer', 'science', 'programming',
-		'python', 'mathematics', 'player', 'condition',
-		'reverse', 'water', 'board', 'geeks']
-
-# Function will choose one random
-# word from this list of words
-word = random.choice(words)
-
-
-print("Guess the characters")
-
-guesses = ['']
-
-# any number of turns can be used here
-turns = [12]
+def choose_random_word():
+    """
+    Elige una palabra al azar de una lista de palabras predefinidas y la devuelve.
+    """
+    words = ['rainbow', 'computer', 'science', 'programming',
+             'python', 'mathematics', 'player', 'condition',
+             'reverse', 'water', 'board', 'geeks']
+    return random.choice(words)
 
 
-while turns > 0:
+def main():
+    """
+    Esta función implementa el juego de adivinanza de palabras.
+    El jugador debe adivinar una palabra desconocida dentro de un número limitado de intentos.
 
-	# counts the number of times a user fails
-	failed = 0
+    Parámetros:
+    Ninguno
 
-	# all characters from the input
-	# word taking one at a time.
-	for char in word:
+    Retorna:
+    Ninguno
 
-		# comparing that character with
-		# the character in guesses
-		if char in guesses:
-			print(char, end=" ")
+    Uso:
+    Llame a esta función para iniciar el juego.
 
-		else:
-			print("_")
+    Ejemplo:
+    main()
+    """
+    name = get_player_name()
+    print("Good Luck !", name)
 
-			# for every failure 1 will be
-			# incremented in failure
-			failed += 1
+    word = choose_random_word()
+    print("Guess the characters")
 
-	if failed == 0:
-		# user will win the game if failure is 0
-		# and 'You Win' will be given as output
-		print("You Win")
+    guesses = ['']
 
-		# this print the correct word
-		print("The word is: ", word)
-		break
+    # Cualquier número de turnos puede usarse aquí
+    turns = 12
 
-	# if user has input the wrong alphabet then
-	# it will ask user to enter another alphabet
-	print()
-	guess = input("guess a character:")
+    while turns > 0:
+        # Cuenta el número de veces que un usuario falla
+        failed = 0
 
-	# every input character will be stored in guesses
-	guesses += guess
+        # Recorre todos los caracteres de la palabra
+        for char in word:
+            # Compara ese carácter con los caracteres en 'guesses'
+            if char in guesses:
+                print(char, end=" ")
+            else:
+                print("_")
+                # Incrementa 'failed' por cada falla
+                failed += 1
 
-	# check input with the character in word
-	if guess not in word:
+        if failed == 0:
+            # El usuario gana el juego si 'failed' es 0
+            # y se muestra 'You Win' como resultado
+            print("You Win")
+            # Se imprime la palabra correcta
+            print("The word is:", word)
+            break
 
-		turns -= 1
+        # if user has input the wrong alphabet then
+        # it will ask user to enter another alphabet
+        print()
+        guess = input("Guess a character: ")
 
-		# if the character doesn’t match the word
-		# then “Wrong” will be given as output
-		print("Wrong")
+        # Cada carácter ingresado se almacena en 'guesses'
+        guesses += guess
 
-		# this will print the number of
-		# turns left for the user
-		print("You have", + turns, 'more guesses')
+        # Comprueba si el carácter ingresado coincide con la palabra
+        if guess not in word:
+            turns -= 1
+            # Si el carácter no coincide con la palabra, se muestra "Wrong"
+            print("Wrong")
+            # Se muestra el número de turnos restantes para el usuario
+            print("You have", turns, 'more guesses')
 
-		if turns == 0:
-			print("You Loose")
+            if turns == 0:
+                print("You Lose")
+
+if __name__ == "__main__":
+    main()
