@@ -25,7 +25,7 @@ translations = {
         'welcome': "¿Cuál es tu nombre? ",
         'good_luck': "¡Buena suerte!",
         'choose_source':
-            "¿Deseas usar palabras predefinidas o ingresar tus propias palabras? (predefinidas/ingresar): ",
+            "¿Deseas usar palabras predefinidas o ingresar tus propias palabras? (predefinidas/ingresar): ", # pylint: disable=line-too-long
         'custom_word_prompt':
             "Ingresa la palabra personalizada {num} (o presiona Enter para terminar): ",
         'invalid_word': "Por favor, ingresa una palabra válida.",
