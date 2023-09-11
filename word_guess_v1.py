@@ -1,6 +1,6 @@
-import random
 # library that we use in order to choose
 # on random words from a list of words
+import random
 
 name = input("What is your name? ")
 
@@ -19,10 +19,10 @@ word = random.choice(words)
 
 print("Guess the characters")
 
-guesses = ''
+guesses = ['']
 
 # any number of turns can be used here
-turns = 12
+turns = [12]
 
 
 while turns > 0:
